@@ -1,9 +1,13 @@
 const Son = require('../models/son');
 
-module.exports.register = async (reg, res, next) => {
+module.exports.register = async (req, res, next) => {
     try {
-        res.send('to jest kontroler rejestrownia son')
+        let { email, username, password } = req.body;
+        username = email;
+        const son = new Son({ email, username });
+        await Son.register(son, password);
+        res.send('Rejestracja powiodła się');
     } catch (e) {
-        console.log(e);
+        res.send(e);
     }
 }

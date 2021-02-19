@@ -1,12 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
+const userRoutes = require('./routes/users');
 const adminsRoutes = require('./routes/admins');
 const sonRoutes = require('./routes/sons');
 const parentRoutes = require('./routes/parents');
 const chatMessages = require('./routes/chat-messages');
+const methodOverride = require('method-override');
 
-mongoose.connect('mongodb://localhost:27017/yelp-camp', {
+mongoose.connect('mongodb://localhost:27017/wielki-projekt', {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
@@ -21,6 +23,10 @@ db.once("open", () => {
 
 const app = express();
 
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
+
+app.use('/', userRoutes);
 app.use('/admin', adminsRoutes);
 app.use('/son', sonRoutes);
 app.use('/parent', parentRoutes);
