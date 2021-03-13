@@ -1,6 +1,7 @@
 module.exports = [
     {
         "email": "cos@cosgmail.com",
+        "password": "haslo",
         "name": "Jan",
         "surname": "Kowalski",
         "dateOfBirth": "1990-04-22",
@@ -33,6 +34,7 @@ module.exports = [
     },
     {
         "email": "supermail@suiper.com",
+        "password": "haslo",
         "name": "Stanisław",
         "surname": "Kruk",
         "dateOfBirth": "1985-11-04",
@@ -71,6 +73,7 @@ module.exports = [
     },
     {
         "email": "zwyklymail@zwykly.com",
+        "password": "haslo",
         "name": "Burak",
         "surname": "Cudak",
         "dateOfBirth": "1995-01-29",
@@ -96,6 +99,7 @@ module.exports = [
     },
     {
         "email": "szymon@piotrowski.com",
+        "password": "haslo",
         "name": "Szymon",
         "surname": "Piotrowski",
         "dateOfBirth": "1999-07-03",
@@ -121,6 +125,7 @@ module.exports = [
     },
     {
         "email": "jakub@walczak.com",
+        "password": "haslo",
         "name": "Jakub",
         "surname": "Walczak",
         "dateOfBirth": "1990-09-29",
@@ -146,6 +151,7 @@ module.exports = [
     },
     {
         "email": "cyprian@markowski.com",
+        "password": "haslo",
         "name": "Cyprian",
         "surname": "Markowski",
         "dateOfBirth": "1994-06-12",
@@ -171,6 +177,7 @@ module.exports = [
     },
     {
         "email": "maciej@zieba.com",
+        "password": "haslo",
         "name": "Maciej",
         "surname": "Zięba",
         "dateOfBirth": "1983-07-25",
@@ -196,6 +203,7 @@ module.exports = [
     },
     {
         "email": "filip@nowicki.com",
+        "password": "haslo",
         "name": "Filip",
         "surname": "Nowicki",
         "dateOfBirth": "1984-07-23",
@@ -221,6 +229,7 @@ module.exports = [
     },
     {
         "email": "jakub-pajak@wp.com",
+        "password": "haslo",
         "name": "Jakub",
         "surname": "Pająk",
         "dateOfBirth": "1970-08-01",
@@ -246,6 +255,7 @@ module.exports = [
     },
     {
         "email": "jszczepaniak@o2.com",
+        "password": "haslo",
         "name": "Jakub",
         "surname": "Szczepaniak",
         "dateOfBirth": "1978-10-09",

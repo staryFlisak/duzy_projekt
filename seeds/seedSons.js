@@ -3,6 +3,7 @@ const { string } = require('joi');
 const mongoose = require('mongoose');
 const sons = require('./sons');
 const imagesSons = require('./images-sons');
+const socialMediaSons = require('./socialMedia-sons');
 const Son = require('../models/son');
 const passport = require('passport');
 
@@ -55,21 +56,29 @@ let completeSons = sons.map(s => {
     return ({ ...s, images: imagesSon.images, address: foundAddress, job: { ...s.job, location: foundJobLocation }, organizations: organizationsWithLocations });
 });
 
-seedDB().then(() => {
-    db.close();
-})
+completeSons = completeSons.map(s => {
+    let socialMediaSon = socialMediaSons.find(sM => {
+        return sM.owner === s.email;
+    })
+    return ({ ...s, socialMedia: socialMediaSon.media});
+});
 
 const seedDB = async () => {
     await Son.deleteMany({});
     for(let i = 0; i < completeSons.length; i++) {
         const son = new Son(completeSons[i]);
+        const registeredSon = await Son.register(son, completeSons[i].password);
         try {
-        await son.save();
+        await registeredSon.save();
         } catch (e) {
             console.log(e);
         }
     }
 };
+
+seedDB().then(() => {
+    db.close();
+})
 
 
 function randomCity() {

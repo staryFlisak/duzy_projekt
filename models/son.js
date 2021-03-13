@@ -57,6 +57,6 @@ const SonSchema = new Schema({
     ]
 })
 
-SonSchema.plugin(passportLocalMongoose);
+SonSchema.plugin(passportLocalMongoose, {usernameField: 'email'});
 
 module.exports = mongoose.model('Son', SonSchema);
