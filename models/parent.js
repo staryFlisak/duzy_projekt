@@ -12,10 +12,10 @@ const DoughterSchema = new Schema({
 })
 
 const ParentSchema = new Schema({
+    email: String,
     name: String,
-    surname: String,
     job: String,
-    hobbies: String,
+    hobbies: [String],
     address: AddressSchema,
     doughters: [DoughterSchema],
     sonsFriends: [
@@ -38,6 +38,6 @@ const ParentSchema = new Schema({
     ]
 })
 
-ParentSchema.plugin(passportLocalMongoose);
+ParentSchema.plugin(passportLocalMongoose, {usernameField: 'email'});
 
 module.exports = mongoose.model('Parent', ParentSchema);
