@@ -27,10 +27,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
 app.use('/', userRoutes);
-app.use('/admin', adminsRoutes);
-app.use('/son', sonRoutes);
-app.use('/parent', parentRoutes);
-app.use('/message', chatMessages);
+app.use('/admins', adminsRoutes);
+app.use('/sons', sonRoutes);
+app.use('/parents', parentRoutes);
+app.use('/messages', chatMessages);
 
 
 app.get('/', (reg, res) => {

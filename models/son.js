@@ -13,7 +13,7 @@ const SonSchema = new Schema({
     email: String,
     name: String,
     surname: String,
-    dateOfBirth: String,
+    dateOfBirth: Date,
     address: AddressSchema,
     aboutYou: String,
     images: [ImageSchema],

@@ -21,7 +21,6 @@ db.once("open", () => {
     let sons = await Son.find({});
     let parents = await Parent.find({});
 
-    console.log('tutaj');
     for(let i = 0; i < sons.length; i++) {
         let s = sons[i];
         const min = 0;
