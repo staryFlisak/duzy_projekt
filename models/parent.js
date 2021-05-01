@@ -14,6 +14,7 @@ const DoughterSchema = new Schema({
 const ParentSchema = new Schema({
     email: String,
     name: String,
+    wantsToBeFound: {type: Boolean, default: false},
     job: String,
     hobbies: [String],
     address: AddressSchema,

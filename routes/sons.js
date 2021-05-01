@@ -5,6 +5,8 @@ const sons = require('../controllers/sons');
 
 router.get('/', catchAsync(sons.index));
 
+router.get('/:id', catchAsync(sons.showSon));
+
 
 router.route('/register')
 .post(catchAsync(sons.register));
