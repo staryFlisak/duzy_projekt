@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const sons = require('./sons');
 const imagesSons = require('./images-sons');
 const socialMediaSons = require('./socialMedia-sons');
-const Son = require('../models/son');
-const passport = require('passport');
+const SonProfile = require('../models/sonProfile');
+const User = require('../models/user');
 
 mongoose.connect('mongodb://localhost:27017/wielki-projekt', {
     useNewUrlParser: true,
@@ -64,12 +64,23 @@ completeSons = completeSons.map(s => {
 });
 
 const seedDB = async () => {
-    await Son.deleteMany({});
+    await SonProfile.deleteMany({});
+    await User.deleteMany({ role: 'son' })
     for(let i = 0; i < completeSons.length; i++) {
-        const son = new Son(completeSons[i]);
-        const registeredSon = await Son.register(son, completeSons[i].password);
+        const user = new User({
+            email: completeSons[i].email,
+            name: completeSons[i].name,
+            role: 'son'
+        })
+        const registeredUser = await User.register(user, completeSons[i].password)
         try {
-        await registeredSon.save();
+            await registeredUser.save();
+        } catch (e) {
+            console.log(e);
+        }
+        const sonProfile = new SonProfile({...completeSons[i], owner: registeredUser._id});
+        try {
+        await sonProfile.save();
         } catch (e) {
             console.log(e);
         }

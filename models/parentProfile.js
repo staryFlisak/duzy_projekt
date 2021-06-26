@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const AddressSchema = require('./address');
 const SocialMediaSchema = require('./socialMedia');
-const passportLocalMongoose = require('passport-local-mongoose');
 
 const DoughterSchema = new Schema({
     name: String,
@@ -12,8 +11,10 @@ const DoughterSchema = new Schema({
 })
 
 const ParentSchema = new Schema({
-    email: String,
-    name: String,
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     wantsToBeFound: {type: Boolean, default: false},
     job: String,
     hobbies: [String],
@@ -39,6 +40,4 @@ const ParentSchema = new Schema({
     ]
 })
 
-ParentSchema.plugin(passportLocalMongoose, {usernameField: 'email'});
-
-module.exports = mongoose.model('Parent', ParentSchema);
+module.exports = mongoose.model('ParentProfile', ParentSchema);

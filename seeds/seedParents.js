@@ -3,8 +3,8 @@ const { string } = require('joi');
 const mongoose = require('mongoose');
 const parents = require('./parents');
 const doughters = require('./doughters-parents');
-const Parent = require('../models/parent');
-const passport = require('passport');
+const ParentProfile = require('../models/parentProfile');
+const User = require('../models/user');
 
 mongoose.connect('mongodb://localhost:27017/wielki-projekt', {
     useNewUrlParser: true,
@@ -20,7 +20,6 @@ db.once("open", () => {
 });
 
 let cities = [];
-
 
 cities = fs.readFileSync('cities.csv', 'utf-8', string);
 cities = cities.split(/\r?\n/);
@@ -57,16 +56,26 @@ let completeParents = parents.map(p => {
 // console.log(completeParents);
 
 const seedDB = async () => {
-    await Parent.deleteMany({});
+    await ParentProfile.deleteMany({});
+    await User.deleteMany({ role: 'parent' });
     for(let i = 0; i < completeParents.length; i++) {
-        const parent = new Parent(completeParents[i]);
-        const registeredParent = await Parent.register(parent, completeParents[i].password);
+        const user = new User({
+            email: completeParents[i].email,
+            name: completeParents[i].name,
+            role: 'parent'
+        })
+        // console.log(user);
+        const registeredUser = await User.register(user, completeParents[i].password)
         try {
-            await registeredParent.save();
+            await registeredUser.save();
         } catch (e) {
-            console.log('Tu jest blad');
             console.log(e);
-            console.log(parent);
+        }
+        const parentProfile = new ParentProfile({...completeParents[i], owner: registeredUser._id});
+        try {
+            await parentProfile.save();
+        } catch (e) {
+            console.log(e);
         }
     }
 };

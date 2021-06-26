@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Son = require('../models/son');
-const Parent = require('../models/parent');
+const SonProfile = require('../models/sonProfile');
+const ParentProfile = require('../models/parentProfile');
 
 mongoose.connect('mongodb://localhost:27017/wielki-projekt', {
     useNewUrlParser: true,
@@ -18,8 +18,8 @@ db.once("open", () => {
 
 (async() => {
 
-    let sons = await Son.find({});
-    let parents = await Parent.find({});
+    let sons = await SonProfile.find({});
+    let parents = await ParentProfile.find({});
 
     for(let i = 0; i < sons.length; i++) {
         let s = sons[i];
@@ -33,7 +33,7 @@ db.once("open", () => {
         const randomParentsWhoWantToBeAdded = randomPeopleWithoutRepetition(parentsWhoWantToBeAddedCount , ...parents).map(r => r._id);
         let parentsToBeAdded = {parentsFriends: randomParentsFriends, parentsSaved: randomParentsSaved, parentsWhoWantToBeAdded: randomParentsWhoWantToBeAdded};
         try {
-            await Son.findByIdAndUpdate(s._id, {...parentsToBeAdded});
+            await SonProfile.findByIdAndUpdate(s._id, {...parentsToBeAdded});
         } catch (e) {
             console.log(e);
         }
@@ -50,7 +50,7 @@ db.once("open", () => {
         const randomSonsWhoWantToBeAdded = randomPeopleWithoutRepetition(sonsWhoWantToBeAddedCount , ...sons).map(r => r._id);
         let sonsToBeAdded = {sonsFriends: randomSonsFriends, sonsSaved: randomSonsSaved, sonsWhoWantToBeAdded: randomSonsWhoWantToBeAdded};
         try {
-            await Parent.findByIdAndUpdate(p._id, {...sonsToBeAdded});
+            await ParentProfile.findByIdAndUpdate(p._id, {...sonsToBeAdded});
         } catch (e) {
             console.log(e);
         }

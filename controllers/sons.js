@@ -1,5 +1,5 @@
 const moment = require('moment');
-const Son = require('../models/son');
+const SonProfile = require('../models/sonProfile');
 
 module.exports.index = async (req, res) => {
     const {ageMin = 18, ageMax = 99, city = '.*'} = req.query;

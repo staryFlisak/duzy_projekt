@@ -2,17 +2,17 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const AddressSchema = require('./address');
 const SocialMediaSchema = require('./socialMedia');
-const passportLocalMongoose = require('passport-local-mongoose');
 
 const ImageSchema = new Schema({
     url: String,
     filename: String
 })
 
-const SonSchema = new Schema({
-    email: String,
-    name: String,
-    surname: String,
+const SonProfileSchema = new Schema({
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     dateOfBirth: Date,
     address: AddressSchema,
     aboutYou: String,
@@ -57,6 +57,4 @@ const SonSchema = new Schema({
     ]
 })
 
-SonSchema.plugin(passportLocalMongoose, {usernameField: 'email'});
-
-module.exports = mongoose.model('Son', SonSchema);
+module.exports = mongoose.model('SonProfile', SonProfileSchema);
