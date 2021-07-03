@@ -40,19 +40,19 @@ const SonProfileSchema = new Schema({
     parentsFriends: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Parent'
+            ref: 'ParentProfile'
         }
     ],
     parentsSaved: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Parent'
+            ref: 'ParentProfile'
         }
     ],
     parentsWhoWantToBeAdded: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Parent'
+            ref: 'ParentProfile'
         }
     ]
 })

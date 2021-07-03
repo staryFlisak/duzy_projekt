@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+require('./models/user');
 
 const userRoutes = require('./routes/users');
 const adminsRoutes = require('./routes/admins');

@@ -1,11 +1,11 @@
 const moment = require('moment');
-const Parent = require('../models/parent');
+const ParentProfile = require('../models/parentProfile');
 
 module.exports.index = async (req, res) => {
     const {ageMin = 24, ageMax = 99, city = '.*'} = req.query;
     const yearMax = moment().subtract(ageMin, 'years').format('YYYY');
     const yearMin = moment().subtract(ageMax, 'years').format('YYYY');
-    let parents = await Parent.find( { wantsToBeFound: true, "address.city": { $regex: `${city}`, $options: 'i' } }, 'name address job doughters' );
+    let parents = await ParentProfile.find( { wantsToBeFound: true, "address.city": { $regex: `${city}`, $options: 'i' } }, 'name address job doughters' );
     parents = parents.filter(p => {
         return p.doughters.some(d => d.yearOfBirth >= yearMin && d.yearOfBirth <= yearMax);
     })
