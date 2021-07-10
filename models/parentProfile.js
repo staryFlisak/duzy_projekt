@@ -4,10 +4,7 @@ const AddressSchema = require('./address');
 const SocialMediaSchema = require('./socialMedia');
 
 const DoughterSchema = new Schema({
-    name: String,
-    yearOfBirth: Number,
     socialMedia: [SocialMediaSchema]
-
 })
 
 const ParentSchema = new Schema({
@@ -15,7 +12,6 @@ const ParentSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    wantsToBeFound: {type: Boolean, default: false},
     job: String,
     hobbies: [String],
     address: AddressSchema,

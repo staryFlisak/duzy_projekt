@@ -1,8 +1,6 @@
 module.exports = [
     {
         "parent": "sslawek@cos.pl",
-        "name": "Julia",
-        "yearOfBirth": "1996",
         "socialMedia": [
             {
                 "website": "Facebook",
@@ -16,8 +14,6 @@ module.exports = [
     },
     {
         "parent": "mirek@gmail.com",
-        "name": "Anna",
-        "yearOfBirth": "1990",
         "socialMedia": [
             {
                 "website": "Instagram",
@@ -27,8 +23,6 @@ module.exports = [
     },
     {
         "parent": "andrzej@andrzej.pl",
-        "name": "Natalia",
-        "yearOfBirth": "1991",
         "socialMedia": [
             {
                 "website": "Facebook",
@@ -38,8 +32,6 @@ module.exports = [
     },
     {
         "parent": "janusz@klopp.pl",
-        "name": "Kornelia",
-        "yearOfBirth": "1992",
         "socialMedia": [
             {
                 "website": "Facebook",
@@ -49,8 +41,6 @@ module.exports = [
     },
     {
         "parent": "bartosz@o2.pl",
-        "name": "Karolina",
-        "yearOfBirth": "1993",
         "socialMedia": [
             {
                 "website": "Instagram",
@@ -60,8 +50,6 @@ module.exports = [
     },
     {
         "parent": "bartosz@o2.pl",
-        "name": "Karyna",
-        "yearOfBirth": "1996",
         "socialMedia": [
             {
                 "website": "Twitter",
@@ -71,8 +59,6 @@ module.exports = [
     },
     {
         "parent": "janusz@klopp.pl",
-        "name": "Christina",
-        "yearOfBirth": "1989",
         "socialMedia": [
             {
                 "website": "Linkedin",

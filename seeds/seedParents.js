@@ -47,7 +47,7 @@ let completeParents = parents.map(p => {
         return d.parent === p.email;
     })
     parentDoughters = parentDoughters.map(pD => {
-        return ({name: pD.name, yearOfBirth: pD.yearOfBirth, socialMedia: pD.socialMedia})
+        return ({socialMedia: pD.socialMedia})
     })
     let foundAddress = randomCity();
     return ({...p, doughters: parentDoughters, address: foundAddress});
