@@ -24,3 +24,19 @@ module.exports.register = async (reg, res, next) => {
         console.log(e);
     }
 }
+
+module.exports.editParent = async (reg, res, next) => {
+    try {
+        res.send('to jest kontroler edytowania parent POST')
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+module.exports.deleteParent = async (reg, res, next) => {
+    try {
+        res.send('to jest kontroler usuwania parent DELETE')
+    } catch (e) {
+        console.log(e);
+    }
+}

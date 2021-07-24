@@ -5,9 +5,13 @@ const parents = require('../controllers/parents');
 
 router.get('/', catchAsync(parents.index));
 
-router.get('/:id', catchAsync(parents.showParent));
+router.route('/:id')
+    .get(catchAsync(parents.showParent))
+    .delete(catchAsync(parents.deleteParent));
 
 router.route('/register')
 .post(catchAsync(parents.register));
+
+router.put('/edit/:id', catchAsync(parents.editParent));
 
 module.exports = router;
