@@ -25,3 +25,7 @@ module.exports.register = async (req, res, next) => {
         res.send(e);
     }
 }
+
+module.exports.editSon = async (req, res, next) => {
+    res.send('To jest kontroler edytowania son.');
+}

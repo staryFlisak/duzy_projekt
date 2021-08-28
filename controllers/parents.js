@@ -6,9 +6,10 @@ module.exports.index = async (req, res) => {
     const yearMax = moment().subtract(ageMin, 'years').format('YYYY');
     const yearMin = moment().subtract(ageMax, 'years').format('YYYY');
     let parents = await ParentProfile.find( { "address.city": { $regex: `${city}`, $options: 'i' } }, 'name address job doughters' );
-    parents = parents.filter(p => {
-        return p.doughters.some(d => d.yearOfBirth >= yearMin && d.yearOfBirth <= yearMax);
-    })
+    // parents = parents.filter(p => {
+    //     return p.doughters.some(d => d.yearOfBirth >= yearMin && d.yearOfBirth <= yearMax);
+    // })
+    // console.log(parents);
     res.json(parents);
 }
 
