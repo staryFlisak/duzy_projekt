@@ -50,7 +50,8 @@ let completeParents = parents.map(p => {
         return ({socialMedia: pD.socialMedia})
     })
     let foundAddress = randomCity();
-    return ({...p, doughters: parentDoughters, address: foundAddress});
+    let sonAge = Math.floor(Math.random() * (99 - 18 + 1)) + 18;
+    return ({...p, doughters: parentDoughters, sonAge: sonAge, address: foundAddress});
 })
 
 // console.log(completeParents);

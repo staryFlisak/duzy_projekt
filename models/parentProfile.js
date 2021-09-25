@@ -15,6 +15,7 @@ const ParentSchema = new Schema({
     job: String,
     hobbies: [String],
     address: AddressSchema,
+    sonAge: {type: Number, min: 18, max: 99},
     doughters: [DoughterSchema],
     sonsFriends: [
         {

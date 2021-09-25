@@ -14,18 +14,23 @@ module.exports.showSon = async (req, res) => {
     res.json(son);
 }
 
-module.exports.register = async (req, res, next) => {
-    try {
-        let { email, username, password } = req.body;
-        username = email;
-        const son = new Son({ email, username });
-        await Son.register(son, password);
-        res.send('Rejestracja powiodła się');
-    } catch (e) {
-        res.send(e);
-    }
-}
+// module.exports.register = async (req, res, next) => {
+//     try {
+//         let { email, username, password } = req.body;
+//         username = email;
+//         const son = new Son({ email, username });
+//         await Son.register(son, password);
+//         res.send('Rejestracja powiodła się');
+//     } catch (e) {
+//         res.send(e);
+//     }
+// }
 
 module.exports.editSon = async (req, res, next) => {
     res.send('To jest kontroler edytowania son.');
 }
+
+// module.exports.deleteSon = async (reg, res, next) => {
+//     const { id } = req.params;
+//     const sonProfileToBeDeleted = 
+// }

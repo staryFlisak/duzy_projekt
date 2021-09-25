@@ -18,14 +18,14 @@ module.exports.isProfileOwner = function (options) {
                     path: 'owner',
                     select: '_id'
                 });
-                isOwner = foundSon.owner._id.equals(req.user._id) ? true : false;
+                isOwner = foundSon && foundSon.owner._id.equals(req.user._id) ? true : false;
                 break;
             case 'parent':
                 const foundParent = await ParentProfile.findById(req.params.id).populate({
                     path: 'owner',
                     select: '_id'
                 });
-                isOwner = foundParent.owner._id.equals(req.user._id) ? true : false;
+                isOwner = foundParent && foundParent.owner._id.equals(req.user._id) ? true : false;
                 break;
             default:
                 return res.json({'error': 'We have some technical difficulties'});
