@@ -12,29 +12,30 @@ const ParentSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    job: String,
-    hobbies: [String],
-    address: AddressSchema,
-    sonAge: {type: Number, min: 18, max: 99},
-    doughters: [DoughterSchema],
-    sonsFriends: [
+    job: { type: String, default: "" },
+    hobbies: { type: [String], default: [] },
+    address: {type: AddressSchema, default: {} },
+    sonAgeMin: {type: Number, min: 18, max: 94, default: 18},
+    sonAgeMax: {type: Number, min: 23, max: 99, default: 99},
+    doughters: {type: [DoughterSchema], deafult: []},
+    sonsFriends: {type: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Son'
+        },
+    ], default: [] },
+    sonsSaved: { type: [
         {
             type: Schema.Types.ObjectId,
             ref: 'Son'
         }
-    ],
-    sonsSaved: [
+    ], default: []},
+    sonsWhoWantToBeAdded: {type: [
         {
             type: Schema.Types.ObjectId,
             ref: 'Son'
         }
-    ],
-    sonsWhoWantToBeAdded: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Son'
-        }
-    ]
+    ], default: []}
 })
 
 module.exports = mongoose.model('ParentProfile', ParentSchema);

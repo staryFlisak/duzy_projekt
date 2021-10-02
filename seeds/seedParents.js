@@ -50,8 +50,12 @@ let completeParents = parents.map(p => {
         return ({socialMedia: pD.socialMedia})
     })
     let foundAddress = randomCity();
-    let sonAge = Math.floor(Math.random() * (99 - 18 + 1)) + 18;
-    return ({...p, doughters: parentDoughters, sonAge: sonAge, address: foundAddress});
+    let sonAgeMin = Math.floor(Math.random() * (94 - 18 + 1)) + 18;
+    let sonAgeMax = 0;
+    while(sonAgeMax < sonAgeMin) {
+        sonAgeMax = Math.floor(Math.random() * (99 - 23 + 1)) + 23;
+    }
+    return ({...p, doughters: parentDoughters, sonAgeMin: sonAgeMin, sonAgeMax: sonAgeMax, address: foundAddress});
 })
 
 // console.log(completeParents);
@@ -67,11 +71,11 @@ const seedDB = async () => {
         })
         // console.log(user);
         const registeredUser = await User.register(user, completeParents[i].password)
-        try {
-            await registeredUser.save();
-        } catch (e) {
-            console.log(e);
-        }
+        // try {
+        //     await registeredUser.save();
+        // } catch (e) {
+        //     console.log(e);
+        // }
         const parentProfile = new ParentProfile({...completeParents[i], owner: registeredUser._id});
         try {
             await parentProfile.save();
