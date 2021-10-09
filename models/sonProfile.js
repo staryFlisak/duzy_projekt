@@ -13,6 +13,7 @@ const SonProfileSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
+    surname: String,
     dateOfBirth: Date,
     address: AddressSchema,
     aboutYou: String,

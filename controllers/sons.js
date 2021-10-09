@@ -1,4 +1,5 @@
 const moment = require('moment');
+const User = require('../models/user');
 const SonProfile = require('../models/sonProfile');
 
 module.exports.index = async (req, res) => {
@@ -14,17 +15,40 @@ module.exports.showSon = async (req, res) => {
     res.json(son);
 }
 
-// module.exports.register = async (req, res, next) => {
-//     try {
-//         let { email, username, password } = req.body;
-//         username = email;
-//         const son = new Son({ email, username });
-//         await Son.register(son, password);
-//         res.send('Rejestracja powiodła się');
-//     } catch (e) {
-//         res.send(e);
-//     }
-// }
+module.exports.register = async (req, res, next) => {
+    const {email, password, name, surname, dateOfBirth, address, aboutYou, images, job, education, organizations, hobbies, socialMedia} = req.body;
+    const user = new User({ email, name, role: 'parent' });
+    let registeredUser = {};
+    try {
+        registeredUser = await User.register(user, password);
+    } catch (e) {
+        return res.send("Taki uzytkownik juz jest");
+    }
+    if(Object.keys(registeredUser).length !== 0) {
+        const sonProfile = new SonProfile({
+            owner: registeredUser._id,
+            job,
+            surname,
+            dateOfBirth,
+            aboutYou,
+            hobbies,
+            address,
+            images,
+            education,
+            organizations,
+            socialMedia
+        });
+        try {
+            sonProfile.save();
+        } catch (e) {
+            console.log(e);
+        }
+        req.login(registeredUser, err => {
+            if (err) return next(err);
+            return res.json({"message": 'Jesteś zalogowany!', "userId": registeredUser._id});
+        })
+    }
+}
 
 module.exports.editSon = async (req, res, next) => {
     res.send('To jest kontroler edytowania son.');

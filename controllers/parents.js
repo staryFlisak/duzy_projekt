@@ -13,7 +13,6 @@ module.exports.showParent = async (req, res) => {
 }
 
 module.exports.register = async (req, res, next) => {
-
     const { email, name, password, job, hobbies, address, sonAgeMin, sonAgeMax, doughters } = req.body;
     const user = new User({ email, name, role: 'parent' });
     // res.send("To jest kontroler rejestrowania parent");
@@ -21,10 +20,8 @@ module.exports.register = async (req, res, next) => {
     try {
         registeredUser = await User.register(user, password);
     } catch (e) {
-        res.send("Taki uzytkownik juz jest");
+        return res.send("Taki uzytkownik juz jest");
     }
-
-
     if(Object.keys(registeredUser).length !== 0) {
         const parentProfile = new ParentProfile({
             owner: registeredUser._id,
@@ -42,23 +39,14 @@ module.exports.register = async (req, res, next) => {
         }
         req.login(registeredUser, err => {
             if (err) return next(err);
-            res.send('Jesteś zalogowany!');
+            return res.json({"message": 'Jesteś zalogowany!', "userId": registeredUser._id});
         })
     }
-
 }
 
 // module.exports.editParent = async (reg, res, next) => {
 //     try {
 //         res.send('to jest kontroler edytowania parent POST')
-//     } catch (e) {
-//         console.log(e);
-//     }
-// }
-
-// module.exports.deleteParent = async (reg, res, next) => {
-//     try {
-//         res.send('to jest kontroler usuwania parent DELETE')
 //     } catch (e) {
 //         console.log(e);
 //     }
