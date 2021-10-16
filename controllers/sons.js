@@ -50,11 +50,13 @@ module.exports.register = async (req, res, next) => {
     }
 }
 
-module.exports.editSon = async (req, res, next) => {
-    res.send('To jest kontroler edytowania son.');
+module.exports.updateSon = async (req, res, next) => {
+    const { id } = req.params;
+    try {
+        const sonProfile = await SonProfile.findByIdAndUpdate(id, { ...req.body });
+        await sonProfile.save();
+    } catch (e) {
+        return res.json({"message": "There was some issue with updating your profile"});
+    }
+    return res.json({"message": "Your profile has beed updated!"});
 }
-
-// module.exports.deleteSon = async (reg, res, next) => {
-//     const { id } = req.params;
-//     const sonProfileToBeDeleted = 
-// }

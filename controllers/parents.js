@@ -44,10 +44,13 @@ module.exports.register = async (req, res, next) => {
     }
 }
 
-// module.exports.editParent = async (reg, res, next) => {
-//     try {
-//         res.send('to jest kontroler edytowania parent POST')
-//     } catch (e) {
-//         console.log(e);
-//     }
-// }
+module.exports.updateParent = async (req, res, next) => {
+    const { id } = req.params;
+    try {
+        const parentProfile = await ParentProfile.findByIdAndUpdate(id, { ...req.body });
+        await parentProfile.save();
+    } catch (e) {
+        return res.json({"message": "There was some issue with updating your profile"});
+    }
+    return res.json({"message": "Your profile has beed updated!"});
+}

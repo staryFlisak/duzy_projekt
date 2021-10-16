@@ -14,6 +14,6 @@ router.route('/:id')
 router.route('/register')
 .post(catchAsync(sons.register));
 
-router.put('/edit/:id', isLoggedIn, isProfileOwner({type: 'son'}), catchAsync(sons.editSon));
+router.put('/edit/:id', isLoggedIn, isProfileOwner({type: 'son'}), catchAsync(sons.updateSon));
 
 module.exports = router;

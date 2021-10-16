@@ -13,6 +13,6 @@ router.route('/:id')
 router.route('/register')
 .post(catchAsync(parents.register));
 
-router.put('/edit/:id', isLoggedIn, isProfileOwner({type: 'parent'}), catchAsync(parents.editParent));
+router.put('/edit/:id', isLoggedIn, isProfileOwner({type: 'parent'}), catchAsync(parents.updateParent));
 
 module.exports = router;
