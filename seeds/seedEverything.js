@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const SonProfile = require('../models/sonProfile');
 const ParentProfile = require('../models/parentProfile');
-const Chat = require('../models/chat');
+const {Chat, Message} = require('../models/chat');
+const User = require('../models/user')
 
 mongoose.connect('mongodb://localhost:27017/wielki-projekt', {
     useNewUrlParser: true,
@@ -22,7 +23,6 @@ const lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam cons
 
     let sons = await SonProfile.find({});
     let parents = await ParentProfile.find({});
-    let chats = await Chat.find({});
 
     for(let i = 0; i < sons.length; i++) {
         let s = sons[i];
@@ -60,6 +60,7 @@ const lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam cons
     }
 
     await Chat.deleteMany({});
+    sons = await SonProfile.find({});
     for (let i = 0; i < sons.length; i++) {
         let son = sons[i];
         const parentsFriends = son.parentsFriends;
@@ -75,16 +76,38 @@ const lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam cons
             for (k = 0; k < messageCount; k++) {
                 const messageLength = Math.floor(Math.random() * (480));
                 const messageText = lorem.slice(0, messageLength);
-                const addressee = Math.random() < 0.5 ? 'parent' : 'son';
-                const sender = Math.random() < 0.5 ? 'parent' : 'son';
+                let sender = '';
+                const isSenderParent = Math.random() < 0.5 ? true : false;
+                if (isSenderParent) {
+                    try {
+                        const foundParent = await ParentProfile.findById(parentsFriends[j]).populate({
+                            path: 'owner',
+                            select: '_id'
+                        });
+                        sender = foundParent.owner._id;
+                    } catch (e) {
+                        console.log(e);
+                    }
+                    
+                } else {
+                    try {
+                        const foundSon = await SonProfile.findById(son._id).populate({
+                            path: 'owner',
+                            select: '_id'
+                        });
+                        sender = foundSon.owner._id;
+                    } catch (e) {
+                        console.log(e);
+                    }
+                    
+                }
                 const messageDate = startDate.setDate(startDate.getDate() + 1);
-                const fullMessage = { text: messageText, addressee, sender, date: messageDate };
+                const fullMessage = { text: messageText, sender, date: messageDate };
                 chat.messages.push(fullMessage);
                 await chat.save();
             }
         }
     }
-
     db.close();
 })()
 
