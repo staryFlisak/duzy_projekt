@@ -1,5 +1,6 @@
 const SonProfile = require('./models/sonProfile');
 const ParentProfile = require('./models/parentProfile');
+const {Chat, Message} = require('./models/Chat');
 
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
@@ -35,5 +36,40 @@ module.exports.isProfileOwner = function (options) {
         } else {
             return res.json({'error': 'You are not the owner of this profile'});
         }
+    }
+}
+
+module.exports.isChatOwner = function () {
+    return async function (req, res, next) {
+        const foundChat = await Chat.findById(req.params.chatId).populate('chattingParent').populate('chattingSon');
+        const foundParent = await ParentProfile.findById(foundChat.chattingParent._id).populate({
+            path: 'owner',
+            select: '_id'
+        })
+        const foundSon = await SonProfile.findById(foundChat.chattingSon._id).populate({
+            path: 'owner',
+            select: '_id'
+        })
+        if ((foundParent && foundParent.owner._id.equals(req.user._id)) || (foundSon && foundSon.owner._id.equals(req.user._id))) {
+            next();
+        } else {
+            return res.json({'error': 'Cos poszlo nie tak :('});
+        }
+    }
+}
+
+module.exports.isMessageOwner = function () {
+    return async function (req, res, next) {
+        const foundChat = await Chat.findById(req.params.chatId).populate('messages');
+        const foundMessage = await foundChat.messages.find(message => message._id.equals(req.params.messageId)).populate({
+            path: 'sender',
+            select: '_id'
+        });
+        if(foundMessage && foundMessage.sender._id.equals(req.user._id)) {
+            next();
+        } else {
+            return res.json({'error': 'Cos poszlo nie tak :('});
+        }
+
     }
 }

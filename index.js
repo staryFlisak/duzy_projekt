@@ -88,7 +88,7 @@ app.use('/', userRoutes);
 app.use('/admins', adminsRoutes);
 app.use('/sons', sonRoutes);
 app.use('/parents', parentRoutes);
-app.use('/messages', chatMessages);
+app.use('/chats', chatMessages);
 
 
 app.get('/', (reg, res) => {

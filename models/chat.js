@@ -5,13 +5,9 @@ const MessageSchema = new Schema({
     text: String,
     isRead: { type: Boolean, default: false },
     date: { type: Date, default: Date.now },
-    addressee: {
-        type: String,
-        enum: ['parent', 'son']
-    },
     sender: {
-        type: String,
-        enum: ['parent', 'son']
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     },
     isAddresseeInformed: {type: Boolean, deafult: false },
     wasDeleted: { type: Boolean, default: false }
@@ -20,15 +16,18 @@ const MessageSchema = new Schema({
 const ChatSchema = new Schema({
     chattingParent: {
         type: Schema.Types.ObjectId,
-        ref: 'Parent',
+        ref: 'ParentProfile',
         required: true
     },
     chattingSon: {
         type: Schema.Types.ObjectId,
-        ref: 'Son',
+        ref: 'SonProfile',
         required: true
     },
     messages: [MessageSchema]
 })
 
-module.exports = mongoose.model('Chat', ChatSchema);
+const Chat = mongoose.models.Chat || mongoose.model('Chat', ChatSchema);
+const Message = mongoose.models.Message || mongoose.model('Message', MessageSchema);
+
+module.exports = {Chat, Message};
