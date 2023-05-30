@@ -15,4 +15,11 @@ router.route('/register')
 
 router.put('/edit/:id', isLoggedIn, isProfileOwner({type: 'parent'}), catchAsync(parents.updateParent));
 
+router.get('/:id/sonswithrequestsent', isLoggedIn, isProfileOwner({type: 'parent'}), catchAsync(parents.sonsWithRequestSentShow));
+router.post('/:id/sonswithrequestsent/:sonid', isLoggedIn, isProfileOwner({type: 'parent'}), catchAsync(parents.sonsWithRequestSentRegister));
+router.delete('/:id/sonswithrequestsent/:sonid', isLoggedIn, isProfileOwner({type: 'parent'}), catchAsync(parents.sonsWithRequestSentDelete));
+
+router.get('/:id/sonswhowanttobeadded', isLoggedIn, isProfileOwner({type: 'parent'}), catchAsync(parents.sonsWhoWantToBeAddedShow));
+router.post('/:id/sonswhowanttobeadded/:sonid', isLoggedIn, isProfileOwner({type: 'parent'}), catchAsync(parents.sonsonsWhoWantToBeAddedAccept));
+
 module.exports = router;

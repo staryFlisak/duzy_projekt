@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 const SonProfile = require('../models/sonProfile');
 const ParentProfile = require('../models/parentProfile');
-const {Chat, Message} = require('../models/chat');
-const User = require('../models/user')
+const {Chat} = require('../models/chat');
 
 mongoose.connect('mongodb://localhost:27017/wielki-projekt', {
     useNewUrlParser: true,
@@ -31,11 +30,19 @@ const lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam cons
         const parentsFriendsCount = Math.floor(Math.random() * (max - min + 1)) + min;
         const parentsSavedCount = Math.floor(Math.random() * (max - min + 1)) + min;
         const parentsWhoWantToBeAddedCount = Math.floor(Math.random() * (max - min + 1)) + min;
-        const randomParentsFriends = randomPeopleWithoutRepetition(parentsFriendsCount , ...parents);
-        const randomParentsSaved = randomPeopleWithoutRepetition(parentsSavedCount , ...parents).map(r => r._id).map(r => r._id);
-        const randomParentsWhoWantToBeAdded = randomPeopleWithoutRepetition(parentsWhoWantToBeAddedCount , ...parents).map(r => r._id);
-        let parentsToBeAdded = {parentsFriends: randomParentsFriends, parentsSaved: randomParentsSaved, parentsWhoWantToBeAdded: randomParentsWhoWantToBeAdded};
+        const parentsWithRequestSentCount = Math.floor(Math.random() * (max - min + 1)) + min;
+        const randomParentsFriends = randomPeopleWithoutRepetition(parentsFriendsCount, ...parents).map(r => r._id).map(r => r._id);;
+        const randomParentsSaved = randomPeopleWithoutRepetition(parentsSavedCount, ...parents).map(r => r._id).map(r => r._id);
+        const randomParentsWhoWantToBeAdded = randomPeopleWithoutRepetition(parentsWhoWantToBeAddedCount, ...parents).map(r => r._id);
+        const randomParentsWithRequestSent = randomPeopleWithoutRepetition(parentsWithRequestSentCount, ...parents).map(r => r._id);
+        let parentsToBeAdded = {
+            parentsFriends: {dateWhenLastParentAdded: Date.now(), parentsFriendsArray: randomParentsFriends},
+            parentsSaved: randomParentsSaved,
+            parentsWhoWantToBeAdded: randomParentsWhoWantToBeAdded,
+            parentsWithRequestSent: {dateWhenLastRequestWasSent: Date.now(), parentsWithRequestSentArray: randomParentsWithRequestSent}
+        };
         try {
+            // console.log(parentsToBeAdded.parentsFriends);
             await SonProfile.findByIdAndUpdate(s._id, {...parentsToBeAdded});
         } catch (e) {
             console.log(e);
@@ -48,10 +55,17 @@ const lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam cons
         const sonsFriendsCount = Math.floor(Math.random() * (max - min + 1)) + min;
         const sonsSavedCount = Math.floor(Math.random() * (max - min + 1)) + min;
         const sonsWhoWantToBeAddedCount = Math.floor(Math.random() * (max - min + 1)) + min;
-        const randomSonsFriends = randomPeopleWithoutRepetition(sonsFriendsCount , ...sons);
-        const randomSonsSaved = randomPeopleWithoutRepetition(sonsSavedCount , ...sons).map(r => r._id).map(r => r._id);
-        const randomSonsWhoWantToBeAdded = randomPeopleWithoutRepetition(sonsWhoWantToBeAddedCount , ...sons).map(r => r._id);
-        let sonsToBeAdded = {sonsFriends: randomSonsFriends, sonsSaved: randomSonsSaved, sonsWhoWantToBeAdded: randomSonsWhoWantToBeAdded};
+        const sonsWithRequestSentCount = Math.floor(Math.random() * (max - min + 1)) + min;
+        const randomSonsFriends = randomPeopleWithoutRepetition(sonsFriendsCount, ...sons).map(r => r._id).map(r => r._id);;
+        const randomSonsSaved = randomPeopleWithoutRepetition(sonsSavedCount, ...sons).map(r => r._id).map(r => r._id);
+        const randomSonsWhoWantToBeAdded = randomPeopleWithoutRepetition(sonsWhoWantToBeAddedCount, ...sons).map(r => r._id);
+        const randomSonsWithRequestSent = randomPeopleWithoutRepetition(sonsWithRequestSentCount, ...sons).map(r => r._id);
+        let sonsToBeAdded = {
+            sonsFriends: {dateWhenLastSonAdded: Date.now(), sonsFriendsArray: randomSonsFriends},
+            sonsSaved: randomSonsSaved,
+            sonsWhoWantToBeAdded: randomSonsWhoWantToBeAdded,
+            sonsWithRequestSent: {dateWhenLastRequestWasSent: Date.now(), sonsWithRequestSentArray: randomSonsWithRequestSent}
+        };
         try {
             await ParentProfile.findByIdAndUpdate(p._id, {...sonsToBeAdded});
         } catch (e) {
@@ -63,7 +77,7 @@ const lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam cons
     sons = await SonProfile.find({});
     for (let i = 0; i < sons.length; i++) {
         let son = sons[i];
-        const parentsFriends = son.parentsFriends;
+        const parentsFriends = son.parentsFriends.parentsFriendsArray;
         for (let j = 0; j < parentsFriends.length; j++) {
             const chat = new Chat({ chattingParent: parentsFriends[j], chattingSon: son._id });
             try {

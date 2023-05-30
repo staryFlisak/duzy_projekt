@@ -14,28 +14,47 @@ const ParentSchema = new Schema({
     },
     job: { type: String, default: "" },
     hobbies: { type: [String], default: [] },
-    address: {type: AddressSchema, default: {} },
-    sonAgeMin: {type: Number, min: 18, max: 94, default: 18},
-    sonAgeMax: {type: Number, min: 23, max: 99, default: 99},
-    doughters: {type: [DoughterSchema], deafult: []},
-    sonsFriends: {type: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Son'
-        },
-    ], default: [] },
-    sonsSaved: { type: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Son'
-        }
-    ], default: []},
-    sonsWhoWantToBeAdded: {type: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Son'
-        }
-    ], default: []}
+    address: { type: AddressSchema, default: {} },
+    sonAgeMin: { type: Number, min: 18, max: 94, default: 18 },
+    sonAgeMax: { type: Number, min: 23, max: 99, default: 99 },
+    doughters: { type: [DoughterSchema], deafult: [] },
+    sonsFriends: {
+        dateWhenLastSonAdded: Date,
+        sonsFriendsArray: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'SonProfile',
+                dateWhenSonWasAdded: Date
+            }
+        ]
+    },
+    sonsSaved: {
+        type: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'SonProfile',
+                dateWhenSonSaved: Date
+            }
+        ], default: []
+    },
+    sonsWhoWantToBeAdded: {
+        type: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'SonProfile'
+            }
+        ], default: []
+    },
+    sonsWithRequestSent: {
+        dateWhenLastRequestWasSent: Date,
+        sonsWithRequestSentArray: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'SonProfile',
+                dateWhenRequestWasSent: Date
+            }
+        ]
+    }
 })
 
 module.exports = mongoose.model('ParentProfile', ParentSchema);

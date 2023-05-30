@@ -38,24 +38,43 @@ const SonProfileSchema = new Schema({
     ],
     hobbies: [String],
     socialMedia: [SocialMediaSchema],
-    parentsFriends: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'ParentProfile'
-        }
-    ],
-    parentsSaved: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'ParentProfile'
-        }
-    ],
-    parentsWhoWantToBeAdded: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'ParentProfile'
-        }
-    ]
+    parentsFriends: {
+        dateWhenLastParentAdded: Date,
+        parentsFriendsArray: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'ParentProfile',
+                dateWhenParentWasAdded: Date
+            }
+        ]
+    },
+    parentsSaved: {
+        type: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'ParentProfile',
+                dateWhenParentSaved: Date
+            }
+        ], default: []
+    },
+    parentsWhoWantToBeAdded: {
+        type: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'ParentProfile'
+            }
+        ], default: []
+    },
+    parentsWithRequestSent: {
+        dateWhenLastRequestWasSent: Date,
+        parentsWithRequestSentArray: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'ParentProfile',
+                dateWhenRequestWasSent: Date
+            }
+        ]
+    }
 })
 
 module.exports = mongoose.model('SonProfile', SonProfileSchema);
