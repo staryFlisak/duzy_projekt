@@ -16,11 +16,11 @@ router.route('/register')
 
 router.put('/edit/:id', isLoggedIn, isProfileOwner({type: 'son'}), catchAsync(sons.updateSon));
 
-router.get('/:id/parentswithrequestsent', isLoggedIn, isProfileOwner({type: 'parent'}), catchAsync(sons.parentsWithRequestSentShow));
+router.get('/:id/parentswithrequestsent', isLoggedIn, isProfileOwner({type: 'son'}), catchAsync(sons.parentsWithRequestSentShow));
 router.post('/:id/parentswithrequestsent/:parentid', isLoggedIn, isProfileOwner({type: 'son'}), catchAsync(sons.parentsWithRequestSentRegister));
-router.delete('/:id/parentswithrequestsent/:parentid', isLoggedIn, isProfileOwner({type: 'parent'}), catchAsync(sons.parentsWithRequestSentDelete));
+router.delete('/:id/parentswithrequestsent/:parentid', isLoggedIn, isProfileOwner({type: 'son'}), catchAsync(sons.parentsWithRequestSentDelete));
 
-router.get('/:id/parentswhowanttobeadded', isLoggedIn, isProfileOwner({type: 'parent'}), catchAsync(sons.parentsWhoWantToBeAddedShow));
+router.get('/:id/parentswhowanttobeadded', isLoggedIn, isProfileOwner({type: 'son'}), catchAsync(sons.parentsWhoWantToBeAddedShow));
 router.post('/:id/parentswhowanttobeadded/:parentid', isLoggedIn, isProfileOwner({type: 'son'}), catchAsync(sons.parentsWhoWantToBeAddedAccept));
 
 module.exports = router;

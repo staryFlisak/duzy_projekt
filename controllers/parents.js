@@ -85,8 +85,8 @@ module.exports.sonsWithRequestSentRegister = async (req, res, next) => {
             parentProfile.sonsFriends.sonsFriendsArray.push(sonid);
             parentProfile.sonsWhoWantToBeAdded = parentProfile.sonsWhoWantToBeAdded.filter(s => !s.equals(sonid));
             let sonProfile = await SonProfile.findById(sonid);
-            sonProfile.parentsFriend.parentsFriendsArray.push(id);
-            sonProfile.parentsWithRequestSent = sonProfile.parentsWithRequestSent.filter(p => !p.equals(id));
+            sonProfile.parentsFriends.parentsFriendsArray.push(id);
+            sonProfile.parentsWithRequestSent = sonProfile.parentsWithRequestSent.parentsWithRequestSentArray.filter(p => !p.equals(id));
             await parentProfile.save();
             await sonProfile.save();
             return res.json({ "message": "This man was on your 'Want To Be Added' list." });
@@ -97,6 +97,17 @@ module.exports.sonsWithRequestSentRegister = async (req, res, next) => {
         }
     } catch (e) {
         return res.json({ "message": "Something went wrong" });
+    }
+}
+
+module.exports.sonsWhoWantToBeAddedShow = async (req, res, next) => {
+    try {
+        const parent = await ParentProfile.findById(req.params.id).populate('sonsWhoWantToBeAdded');
+        const sonsList =  parent.sonsWhoWantToBeAdded;
+        return res.json(sonsList);
+    } catch (e) {
+        console.log(e.message);
+        return res.json({'message': 'Something went wrong.'});
     }
 }
 
@@ -112,8 +123,8 @@ module.exports.sonsWhoWantToBeAddedAccept = async (req, res, next) => {
             parentProfile.sonsFriends.sonsFriendsArray.push(sonid);
             parentProfile.sonsWhoWantToBeAdded = parentProfile.sonsWhoWantToBeAdded.filter(s => !s.equals(sonid));
             let sonProfile = await SonProfile.findById(sonid);
-            sonProfile.parentsFriend.parentsFriendsArray.push(id);
-            sonProfile.parentsWithRequestSent = sonProfile.parentsWithRequestSent.filter(p => !p.equals(id));
+            sonProfile.parentsFriends.parentsFriendsArray.push(id);
+            sonProfile.parentsWithRequestSent = sonProfile.parentsWithRequestSent.parentsWithRequestSentArray.filter(p => !p.equals(id));
             await parentProfile.save();
             await sonProfile.save();
             return res.json({"message": "This son was added to your Friends List"});

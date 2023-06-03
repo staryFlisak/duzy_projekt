@@ -63,6 +63,17 @@ module.exports.updateSon = async (req, res, next) => {
 }
 
 module.exports.parentsWithRequestSentShow = async (req, res, next) => {
+    try {
+        const son = await SonProfile.findById(req.params.id).populate({
+            path: 'parentsWithRequestSent',
+            populate: {path: 'parentsWithRequestSentArray'}
+        });
+        const parentsList =  son.parentsWithRequestSent.parentsWithRequestSentArray;
+        return res.json(parentsList);
+    } catch (e) {
+        console.log(e.message);
+        return res.json({'message': 'Something went wrong.'});
+    }
 }
 
 module.exports.parentsWithRequestSentRegister = async (req, res, next) => {
@@ -80,15 +91,15 @@ module.exports.parentsWithRequestSentRegister = async (req, res, next) => {
             sonProfile.parentsFriends.parentsFriendsArray.push(parentid);
             sonProfile.parentsWhoWantToBeAdded = sonProfile.parentsWhoWantToBeAdded.filter(p => !p.equals(parentid));
             let parentProfile = await ParentProfile.findById(parentid);
-            parentProfile.sonsFriend.sonsFriendsArray.push(id);
-            parentProfile.sonsWithRequestSent = parentProfile.sonsWithRequestSent.filter(s => !s.equals(id));
+            parentProfile.sonsFriends.sonsFriendsArray.push(id);
+            parentProfile.sonsWithRequestSent = parentProfile.sonsWithRequestSent.sonsWithRequestSentArray.filter(s => !s.equals(id));
             await sonProfile.save();
             await parentProfile.save();
             return res.json({ "message": "This man was on your 'Want To Be Added' list." });
         } else {
             console.log('Nie znalazłem parenta');
             sonProfile.parentsWithRequestSent.parentsWithRequestSentArray.push(parentid);
-            await parentProfile.save();
+            await sonProfile.save();
             return res.json({ "message": "You sent a request to this parent." })
         }
     } catch (e) {
@@ -100,6 +111,14 @@ module.exports.parentsWithRequestSentDelete = async (req, res, next) => {
 }
 
 module.exports.parentsWhoWantToBeAddedShow = async (req, res, next) => {
+    try {
+        const son = await SonProfile.findById(req.params.id).populate('parentsWhoWantToBeAdded');
+        const parentsList =  son.parentsWhoWantToBeAdded;
+        return res.json(parentsList);
+    } catch (e) {
+        console.log(e.message);
+        return res.json({'message': 'Something went wrong.'});
+    }
 }
 
 module.exports.parentsWhoWantToBeAddedAccept = async (req, res, next) => {
@@ -114,8 +133,8 @@ module.exports.parentsWhoWantToBeAddedAccept = async (req, res, next) => {
             sonProfile.parentsFriends.parentsFriendsArray.push(parentid);
             sonProfile.parentsWhoWantToBeAdded = sonProfile.parentsWhoWantToBeAdded.filter(p => !p.equals(parentid));
             let parentProfile = await ParentProfile.findById(parentid);
-            parentProfile.sonsFriend.sonsFriendsArray.push(id);
-            parentProfile.sonsWithRequestSent = parentProfile.sonsWithRequestSent.filter(s => !s.equals(id));
+            parentProfile.sonsFriends.sonsFriendsArray.push(id);
+            parentProfile.sonsWithRequestSent = parentProfile.sonsWithRequestSent.sonsWithRequestSentArray.filter(s => !s.equals(id));
             await sonProfile.save();
             await parentProfile.save();
             return res.json({"message": "This parent was added to your Friends List"});

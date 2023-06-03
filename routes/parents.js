@@ -20,6 +20,6 @@ router.post('/:id/sonswithrequestsent/:sonid', isLoggedIn, isProfileOwner({type:
 router.delete('/:id/sonswithrequestsent/:sonid', isLoggedIn, isProfileOwner({type: 'parent'}), catchAsync(parents.sonsWithRequestSentDelete));
 
 router.get('/:id/sonswhowanttobeadded', isLoggedIn, isProfileOwner({type: 'parent'}), catchAsync(parents.sonsWhoWantToBeAddedShow));
-router.post('/:id/sonswhowanttobeadded/:sonid', isLoggedIn, isProfileOwner({type: 'parent'}), catchAsync(parents.sonsonsWhoWantToBeAddedAccept));
+router.post('/:id/sonswhowanttobeadded/:sonid', isLoggedIn, isProfileOwner({type: 'parent'}), catchAsync(parents.sonsWhoWantToBeAddedAccept));
 
 module.exports = router;
