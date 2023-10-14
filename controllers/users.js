@@ -30,7 +30,7 @@ module.exports.login = async (req, res) => {
 
 module.exports.logout = (req, res) => {
     req.logout();
-    res.send("Użytkownik wylogowany");
+    res.json({"message": "Użytkownik wylogowany"});
 }
 
 module.exports.deleteUser = async (req, res) => {
