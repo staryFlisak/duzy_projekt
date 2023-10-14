@@ -1,6 +1,6 @@
 const SonProfile = require('./models/sonProfile');
 const ParentProfile = require('./models/parentProfile');
-const {Chat, Message} = require('./models/Chat');
+const {Chat, Message} = require('./models/chat');
 
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
